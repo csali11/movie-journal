@@ -1,0 +1,463 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "OpenAPI definition", "version": "v0" },
+  "servers": [{ "url": "http://localhost:8080", "description": "Generated server url" }],
+  "paths": {
+    "/api/tmdb/movie/{id}": {
+      "get": {
+        "tags": ["tmdb-controller"],
+        "operationId": "getGenres",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/MovieDb" } } }
+          }
+        }
+      }
+    },
+    "/api/tmdb/movie/discover": {
+      "get": {
+        "tags": ["tmdb-controller"],
+        "operationId": "getDiscover",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "*/*": { "schema": { "$ref": "#/components/schemas/MovieResultsPage" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountStates": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "favorite": { "type": "boolean" },
+          "rated": { "type": "object" },
+          "watchlist": { "type": "boolean" }
+        }
+      },
+      "AlternativeTitle": {
+        "type": "object",
+        "properties": {
+          "iso_3166_1": { "type": "string" },
+          "title": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      },
+      "AlternativeTitles": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "titles": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AlternativeTitle" }
+          }
+        }
+      },
+      "Artwork": {
+        "type": "object",
+        "properties": {
+          "iso_639_1": { "type": "string" },
+          "file_path": { "type": "string" },
+          "aspect_ratio": { "type": "number", "format": "double" },
+          "height": { "type": "integer", "format": "int32" },
+          "width": { "type": "integer", "format": "int32" },
+          "vote_average": { "type": "number", "format": "double" },
+          "vote_count": { "type": "integer", "format": "int32" }
+        }
+      },
+      "AuthorDetails": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "username": { "type": "string" },
+          "avatar_path": { "type": "string" },
+          "rating": { "type": "string" }
+        }
+      },
+      "BelongsToCollection": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "poster_path": { "type": "string" },
+          "backdrop_path": { "type": "string" }
+        }
+      },
+      "Cast": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "adult": { "type": "boolean" },
+          "gender": { "type": "string", "enum": ["0", "1", "2", "3"] },
+          "known_for_department": { "type": "string" },
+          "name": { "type": "string" },
+          "original_name": { "type": "string" },
+          "popularity": { "type": "number", "format": "double" },
+          "profile_path": { "type": "string" },
+          "cast_id": { "type": "integer", "format": "int32" },
+          "character": { "type": "string" },
+          "credit_id": { "type": "string" },
+          "order": { "type": "integer", "format": "int32" }
+        }
+      },
+      "Change": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/ChangeItem" } }
+        }
+      },
+      "ChangeItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "action": { "type": "string" },
+          "time": { "type": "string" },
+          "iso_639_1": { "type": "string" },
+          "iso_3166_1": { "type": "string" },
+          "value": { "type": "object" }
+        }
+      },
+      "ChangeResults": {
+        "type": "object",
+        "properties": {
+          "changes": { "type": "array", "items": { "$ref": "#/components/schemas/Change" } }
+        }
+      },
+      "Credits": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "cast": { "type": "array", "items": { "$ref": "#/components/schemas/Cast" } },
+          "crew": { "type": "array", "items": { "$ref": "#/components/schemas/Crew" } }
+        }
+      },
+      "Crew": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "adult": { "type": "boolean" },
+          "gender": { "type": "string", "enum": ["0", "1", "2", "3"] },
+          "known_for_department": { "type": "string" },
+          "original_name": { "type": "string" },
+          "popularity": { "type": "number", "format": "double" },
+          "profile_path": { "type": "string" },
+          "credit_id": { "type": "string" },
+          "department": { "type": "string" },
+          "job": { "type": "string" }
+        }
+      },
+      "Data": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "overview": { "type": "string" },
+          "homepage": { "type": "string" },
+          "runtime": { "type": "integer", "format": "int32" },
+          "tagline": { "type": "string" }
+        }
+      },
+      "ExternalIds": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "imdb_id": { "type": "string" },
+          "wikidata_id": { "type": "string" },
+          "facebook_id": { "type": "string" },
+          "instagram_id": { "type": "string" },
+          "twitter_id": { "type": "string" }
+        }
+      },
+      "Images": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "backdrops": { "type": "array", "items": { "$ref": "#/components/schemas/Artwork" } },
+          "logos": { "type": "array", "items": { "$ref": "#/components/schemas/Artwork" } },
+          "posters": { "type": "array", "items": { "$ref": "#/components/schemas/Artwork" } }
+        }
+      },
+      "KeywordResults": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "keywords": { "type": "array", "items": { "$ref": "#/components/schemas/keyword" } }
+        }
+      },
+      "Language": {
+        "type": "object",
+        "properties": {
+          "iso_639_1": { "type": "string" },
+          "english_name": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      },
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "adult": { "type": "boolean" },
+          "backdrop_path": { "type": "string" },
+          "genre_ids": { "type": "array", "items": { "type": "integer", "format": "int32" } },
+          "original_language": { "type": "string" },
+          "original_title": { "type": "string" },
+          "overview": { "type": "string" },
+          "popularity": { "type": "number", "format": "double" },
+          "poster_path": { "type": "string" },
+          "release_date": { "type": "string" },
+          "title": { "type": "string" },
+          "video": { "type": "boolean" },
+          "vote_average": { "type": "number", "format": "double" },
+          "vote_count": { "type": "integer", "format": "int32" }
+        }
+      },
+      "MovieDb": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "adult": { "type": "boolean" },
+          "backdrop_path": { "type": "string" },
+          "belongs_to_collection": { "$ref": "#/components/schemas/BelongsToCollection" },
+          "budget": { "type": "integer", "format": "int32" },
+          "genres": { "type": "array", "items": { "$ref": "#/components/schemas/genre" } },
+          "homepage": { "type": "string" },
+          "imdb_id": { "type": "string" },
+          "original_language": { "type": "string" },
+          "original_title": { "type": "string" },
+          "overview": { "type": "string" },
+          "popularity": { "type": "number", "format": "double" },
+          "poster_path": { "type": "string" },
+          "production_companies": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/production_company" }
+          },
+          "production_countries": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/production_country" }
+          },
+          "release_date": { "type": "string" },
+          "revenue": { "type": "integer", "format": "int64" },
+          "runtime": { "type": "integer", "format": "int32" },
+          "spoken_languages": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Language" }
+          },
+          "status": { "type": "string" },
+          "tagline": { "type": "string" },
+          "title": { "type": "string" },
+          "video": { "type": "boolean" },
+          "vote_average": { "type": "number", "format": "double" },
+          "vote_count": { "type": "integer", "format": "int32" },
+          "account_states": { "$ref": "#/components/schemas/AccountStates" },
+          "alternative_titles": { "$ref": "#/components/schemas/AlternativeTitles" },
+          "credits": { "$ref": "#/components/schemas/Credits" },
+          "changes": { "$ref": "#/components/schemas/ChangeResults" },
+          "external_ids": { "$ref": "#/components/schemas/ExternalIds" },
+          "images": { "$ref": "#/components/schemas/Images" },
+          "keywords": { "$ref": "#/components/schemas/KeywordResults" },
+          "recommendations": { "$ref": "#/components/schemas/MovieResultsPage" },
+          "release_dates": { "$ref": "#/components/schemas/ReleaseDateResults" },
+          "lists": { "$ref": "#/components/schemas/MovieListResultsPage" },
+          "reviews": { "$ref": "#/components/schemas/ReviewResultsPage" },
+          "similar": { "$ref": "#/components/schemas/MovieResultsPage" },
+          "translations": { "$ref": "#/components/schemas/Translations" },
+          "videos": { "$ref": "#/components/schemas/VideoResults" },
+          "watch/providers": { "$ref": "#/components/schemas/ProviderResults" }
+        }
+      },
+      "MovieList": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "favorite_count": { "type": "integer", "format": "int32" },
+          "item_count": { "type": "integer", "format": "int32" },
+          "iso_639_1": { "type": "string" },
+          "list_type": { "type": "string" },
+          "poster_path": { "type": "string" }
+        }
+      },
+      "MovieListResultsPage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/MovieList" } },
+          "page": { "type": "integer", "format": "int32" },
+          "total_pages": { "type": "integer", "format": "int32" },
+          "total_results": { "type": "integer", "format": "int32" }
+        }
+      },
+      "MovieResultsPage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } },
+          "page": { "type": "integer", "format": "int32" },
+          "total_pages": { "type": "integer", "format": "int32" },
+          "total_results": { "type": "integer", "format": "int32" }
+        }
+      },
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "display_priority": { "type": "integer", "format": "int32" },
+          "logo_path": { "type": "string" },
+          "provider_id": { "type": "integer", "format": "int32" },
+          "provider_name": { "type": "string" }
+        }
+      },
+      "ProviderResults": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/components/schemas/WatchProviders" }
+          }
+        }
+      },
+      "ReleaseDate": {
+        "type": "object",
+        "properties": {
+          "certification": { "type": "string" },
+          "descriptors": { "type": "array", "items": { "type": "object" } },
+          "iso_639_1": { "type": "string" },
+          "release_date": { "type": "string" },
+          "note": { "type": "string" },
+          "type": { "type": "string", "enum": ["1", "2", "3", "4", "5", "6"] }
+        }
+      },
+      "ReleaseDateResults": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/ReleaseInfo" } }
+        }
+      },
+      "ReleaseInfo": {
+        "type": "object",
+        "properties": {
+          "iso_3166_1": { "type": "string" },
+          "release_dates": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ReleaseDate" }
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "author": { "type": "string" },
+          "author_details": { "$ref": "#/components/schemas/AuthorDetails" },
+          "content": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" },
+          "url": { "type": "string" }
+        }
+      },
+      "ReviewResultsPage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } },
+          "page": { "type": "integer", "format": "int32" },
+          "total_pages": { "type": "integer", "format": "int32" },
+          "total_results": { "type": "integer", "format": "int32" }
+        }
+      },
+      "Translation": {
+        "type": "object",
+        "properties": {
+          "iso_3166_1": { "type": "string" },
+          "iso_639_1": { "type": "string" },
+          "name": { "type": "string" },
+          "english_name": { "type": "string" },
+          "data": { "$ref": "#/components/schemas/Data" }
+        }
+      },
+      "Translations": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "translations": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Translation" }
+          }
+        }
+      },
+      "VideoResults": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "results": { "type": "array", "items": { "$ref": "#/components/schemas/video" } }
+        }
+      },
+      "WatchProviders": {
+        "type": "object",
+        "properties": {
+          "link": { "type": "string" },
+          "rent": { "type": "array", "items": { "$ref": "#/components/schemas/Provider" } },
+          "buy": { "type": "array", "items": { "$ref": "#/components/schemas/Provider" } },
+          "flatrate": { "type": "array", "items": { "$ref": "#/components/schemas/Provider" } }
+        }
+      },
+      "genre": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" }
+        }
+      },
+      "keyword": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" }
+        }
+      },
+      "production_company": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "logo_path": { "type": "string" },
+          "origin_country": { "type": "string" }
+        }
+      },
+      "production_country": {
+        "type": "object",
+        "properties": { "iso_3166_1": { "type": "string" }, "name": { "type": "string" } }
+      },
+      "video": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "iso_639_1": { "type": "string" },
+          "iso_3166_1": { "type": "string" },
+          "key": { "type": "string" },
+          "site": { "type": "string" },
+          "size": { "type": "integer", "format": "int32" },
+          "type": { "type": "string" },
+          "official": { "type": "boolean" },
+          "published_at": { "type": "string" }
+        }
+      }
+    }
+  }
+}
